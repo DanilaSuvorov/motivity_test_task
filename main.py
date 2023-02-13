@@ -1,6 +1,7 @@
 import sqlite3
 import time
-
+import sqlite3
+from xlsxwriter.workbook import Workbook
 import telebot
 
 API_TOKEN = '6184698340:AAEvoX_JTrFBjNW27EEcTYY7h5lif98f-Ww'
@@ -70,7 +71,22 @@ def stop_command(message):
     bot.send_message(message.chat.id,
                      text="Спасибо за заявку, скоро мы с Вами свяжемся!".format(
                          message.from_user))
+    export()
     bot.stop_polling()
+
+
+def export():
+    workbook = Workbook('base.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select * from Message")
+    mysel = c.execute("select * from Message")
+    for i, row in enumerate(mysel):
+        for j, value in enumerate(row):
+            worksheet.write(i, j, value)
+    workbook.close()
 
 
 if __name__ == '__main__':
