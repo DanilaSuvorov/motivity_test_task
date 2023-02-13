@@ -47,7 +47,7 @@ bot = telebot.TeleBot(API_TOKEN)
 def start(message):
     bot.send_message(message.chat.id,
                      text="Здравствуйте, {0.first_name}! Я бот-помощник для сбора заявок в motivity. Введите через "
-                          "пробел следующие данные: свою фамилию, возраст, тип обращения(заявка на "
+                          "запятую следующие данные: свою фамилию, возраст, тип обращения(заявка на "
                           "найм, консультацию или вопрос) и сопроводительный текст".format(
                          message.from_user))
 
@@ -55,7 +55,7 @@ def start(message):
 @bot.message_handler(content_types=['text'])
 def work(message):
     ans = message.text
-    mas = ans.split()
+    mas = ans.split(',')
     user_id = message.from_user.id
 
     name = mas[0]
